@@ -22,8 +22,11 @@ class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(8)),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ListTile(
+          Container(
+            padding: EdgeInsets.all(10.0),
+            child: ListTile(
               title: Text(
                 _isCheckIn == true ? "Check Out" : "Check In",
                 style: TextStyle(
@@ -41,10 +44,11 @@ class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
                   fontSize: 16,
                 ),
               ),
-            trailing: IconButton(
-              icon: Icon(Icons.play_circle_outline,color: Colors.red,),
+              trailing: IconButton(
+                icon: Icon(Icons.play_circle_outline,color: Colors.red,size: 70.0,),
+              ),
             ),
-            ),
+          )
         ],
       ),
     );
