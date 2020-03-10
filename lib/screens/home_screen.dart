@@ -2,6 +2,7 @@
 import 'package:eattandance/constants.dart';
 import 'package:eattandance/widget/widget_checkin_checkout.dart';
 import 'package:eattandance/widget/widget_dashboard.dart';
+import 'package:eattandance/widget/widget_upcoming_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,23 +44,6 @@ class _HomeScreenState extends State<HomeScreen>{
       onWillPop: _onBackPressed,
       child:  Scaffold(
         backgroundColor: HexColor(COLOR_LIGHT_GREY),
-        appBar: AppBar(
-          backgroundColor:  HexColor(COLOR_THEME_PRIMARY_BLUE),
-          title: Text("Home",style: TextStyle(fontSize: 18.0),),
-          elevation: 0.0,
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {
-               // _widgetUtil.showAlertLogout(context, widget.user);
-              },
-              icon: Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-              ),
-              tooltip: "Logout",
-            ),
-          ],
-        ),
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           padding: EdgeInsets.all(0),
@@ -136,6 +120,11 @@ class _HomeScreenState extends State<HomeScreen>{
                     Padding(
                       padding: EdgeInsets.only(top: 360),
                       child: WidgetDashboard(),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 540,right: 18,bottom:
+                      20),
+                      child: WidgetUpComingEvent(),
                     ),
                   ],
                 ),

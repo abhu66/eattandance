@@ -21,34 +21,78 @@ class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
       margin: EdgeInsets.all(16),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(8)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child :Stack(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(10.0),
-            child: ListTile(
-              title: Text(
-                _isCheckIn == true ? "Check Out" : "Check In",
-                style: TextStyle(
-                  color: Color(0xff64676F),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Regular',
-                  fontSize: 18,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Material(
+                color: Colors.transparent,
+                child: Text(
+                  _isCheckIn == true ? "Check Out" : "Check In",
+                  style: TextStyle(
+                      color: Color(0xff64676F),
+                      fontFamily: 'Regular',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
-              subtitle: Text(
-                _isCheckIn == true ? "Don't forget to check out" : "You haven't Check In yet.",
-                style: TextStyle(
-                  color: Color(0xff64676F),
-                  fontFamily: 'Regular',
-                  fontSize: 16,
+
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 25),
+            child:  Container(
+              width: 200.0,
+              child:Row(
+                children: <Widget>[
+                  Flexible(child : Text(
+                      _isCheckIn == true ? "Don't forget to check out." : "You havn't check in yet.",
+                      style: TextStyle(
+                        color: Color(0xff64676F),
+                        fontFamily: 'Regular',
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ),
+          Positioned(
+              right: -10.0,
+              top: -10.0,
+              child:InkWell(
+                  onTap: (){
+                    setState(() {
+                      _isCheckIn == true ? _isCheckIn =false : _isCheckIn = true;
+                    });
+                  },
+                  child: new Icon(Icons.play_circle_outline,color: _isCheckIn == true ? Colors.red : Colors.yellow,size: 120.0,)
+              )
+          ),
+          Positioned(
+            left: 0.0,
+            bottom: 10.0,
+            child:  Container(
+              width: 200.0,
+              child: Row(
+              children: <Widget>[
+                Flexible(
+                  child: Text(
+                    _isCheckIn == true ? "Have a good day!" : "",
+                    style: TextStyle(
+                      color: Color(0xff64676F),
+                      fontFamily: 'Regular',
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-              ),
-              trailing: IconButton(
-                icon: Icon(Icons.play_circle_outline,color: Colors.red,size: 70.0,),
-              ),
+              ],
             ),
-          )
+            ),
+          ),
         ],
       ),
     );

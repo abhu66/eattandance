@@ -1,4 +1,5 @@
 import 'package:eattandance/bottom_menu.dart';
+import 'package:eattandance/constants.dart';
 import 'package:eattandance/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,18 @@ class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title,this.tabIndex}) : super(key: key);
   final String title;
   final int tabIndex;
+
+
+  final drawerItems = [
+    new DrawerItem("Attandance", Icons.event_available),
+    new DrawerItem("Overtime", Icons.access_time),
+    new DrawerItem("Leave", Icons.directions_run),
+    new DrawerItem("Other", Icons.list),
+    new DrawerItem("Profile", Icons.account_circle),
+    new DrawerItem("About Application", Icons.help_outline),
+    new DrawerItem("Log Out", Icons.exit_to_app),
+  ];
+
  // final LoginRes user;
   @override
   State<StatefulWidget> createState() {
@@ -17,10 +30,16 @@ class MainScreen extends StatefulWidget {
     return _MainScreenState();
   }
 }
+class DrawerItem {
+  String title;
+  IconData icon;
+  DrawerItem(this.title, this.icon);
+}
 
 class _MainScreenState extends State<MainScreen> {
   int _currentTabIndex;
   int _selectedDrawerIndex = 0;
+  final GlobalKey _scaffoldKey = new GlobalKey();
 
 
   @override
@@ -33,6 +52,8 @@ class _MainScreenState extends State<MainScreen> {
     setState(() => _selectedDrawerIndex = index);
     Navigator.of(context).pop(); // close the drawer
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +69,36 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
 
-
+    var drawerOptions = <Widget>[];
+    for (var i = 0; i < widget.drawerItems.length; i++) {
+      var d = widget.drawerItems[i];
+      drawerOptions.add(
+          new ListTile(
+            leading: new Icon(d.icon),
+            title: new Text(d.title),
+            selected: i == _selectedDrawerIndex,
+            onTap: () => _onSelectItem(i),
+          )
+      );
+    }
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor:  HexColor(COLOR_THEME_PRIMARY_BLUE),
+        title: Text("Home",style: TextStyle(fontSize: 18.0),),
+        elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              // _widgetUtil.showAlertLogout(context, widget.user);
+            },
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+            tooltip: "Logout",
+          ),
+        ],
+      ),
       body: _getDrawerItemWidget(_selectedDrawerIndex),
       drawer: Drawer(
           child: ListView(
@@ -59,14 +108,27 @@ class _MainScreenState extends State<MainScreen> {
                 title: Text("FlutterOWl"),
                 subtitle: Text("flutterowl9@gmail.com"),
               ),
-              ListTile(leading: Icon(Icons.home), title: Text("Home")),
-              ListTile(leading: Icon(Icons.event_available), title: Text("Attandance")),
-              ListTile(leading: Icon(Icons.access_time), title: Text("Overtime")),
-              ListTile(leading: Icon(Icons.directions_walk), title: Text("Leave")),
-              ListTile(leading: Icon(Icons.list), title: Text("Other")),
-              ListTile(leading: Icon(Icons.account_circle), title: Text("Profile")),
-              ListTile(leading: Icon(Icons.help_outline), title: Text("About Application")),
-              ListTile(leading: Icon(Icons.exit_to_app), title: Text("Log Out")),
+              Divider(),
+              new Column(children: drawerOptions),
+              Container(
+                // This align moves the children to the bottom
+                  child: Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      // This container holds all the children that will be aligned
+                      // on the bottom and should not scroll with the above ListView
+                      child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Divider(),
+                              SizedBox(height: 20,),
+                              ListTile(
+                                  leading: Icon(Icons.settings),
+                                  title: Text('Settings')),
+                            ],
+                          )
+                      )
+                  )
+              )
             ],
           )),
 //        bottomNavigationBar: BottomNavigationBar(

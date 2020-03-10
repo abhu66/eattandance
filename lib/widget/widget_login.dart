@@ -137,7 +137,7 @@ class _WidgetLoginState extends State<WidgetLogin> {
                   borderRadius: new BorderRadius.circular(5.0),
                   side: BorderSide(color: HexColor(COLOR_THEME_PRIMARY_BLUE),)),
               onPressed: () {
-                Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new MainScreen(title: "Home",)));
+                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: new MainScreen(title: "Home",)));
               },
               color: HexColor(COLOR_THEME_PRIMARY_BLUE),
               textColor: Colors.white,
