@@ -118,7 +118,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Divider(),
               new Column(children: drawerOptions),
-
               Container(
                 // This align moves the children to the bottom
                   child: Align(
@@ -129,7 +128,6 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             children: <Widget>[
                               Divider(),
-                              SizedBox(height: 10,),
                               ListTile(
                                   leading: Icon(Icons.settings),
                                   title: Text('Settings')),
@@ -137,7 +135,7 @@ class _MainScreenState extends State<MainScreen> {
                           )
                       )
                   )
-              )
+              ),
             ],
           )),
 //        bottomNavigationBar: BottomNavigationBar(
