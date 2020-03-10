@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen>{
                           children: <Widget>[
                             Padding(
                               padding:
-                              const EdgeInsets.fromLTRB(16, 5, 16, 16),
+                              const EdgeInsets.fromLTRB(16, 15, 16, 16),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[

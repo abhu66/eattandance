@@ -73,12 +73,20 @@ class _MainScreenState extends State<MainScreen> {
     for (var i = 0; i < widget.drawerItems.length; i++) {
       var d = widget.drawerItems[i];
       drawerOptions.add(
-          new ListTile(
-            leading: new Icon(d.icon),
-            title: new Text(d.title),
-            selected: i == _selectedDrawerIndex,
-            onTap: () => _onSelectItem(i),
-          )
+        Container(
+          margin: EdgeInsets.only(right: 20),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(topRight:  Radius.circular(40),bottomRight: Radius.circular(40)),
+                color: _selectedDrawerIndex  == i ? HexColor(COLOR_LIGHT_BLUE_EFFECT) : Colors.transparent,
+              ),
+            child:
+            new ListTile(
+              leading: new Icon(d.icon),
+              title: new Text(d.title),
+              selected: i == _selectedDrawerIndex,
+              onTap: () => _onSelectItem(i),
+            ),
+          ),
       );
     }
     return Scaffold(
@@ -110,6 +118,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Divider(),
               new Column(children: drawerOptions),
+
               Container(
                 // This align moves the children to the bottom
                   child: Align(
@@ -120,7 +129,7 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             children: <Widget>[
                               Divider(),
-                              SizedBox(height: 20,),
+                              SizedBox(height: 10,),
                               ListTile(
                                   leading: Icon(Icons.settings),
                                   title: Text('Settings')),

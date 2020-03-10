@@ -18,6 +18,7 @@ const COLOR_TEXT_VERSION            = "#65ffffff";
 const COLOR_GRADIENT_STATUS_BAR     = "#14000000";
 const COLOR_PRIMARY_BLUE            = "#0068ce";
 const COLOR_LIGHT_GREY              = "#F0F0F0";
+const COLOR_LIGHT_BLUE_EFFECT       = "#eae1fb";
 //END COLOR
 const TEXT_VERSION = "0.0.1";
 
