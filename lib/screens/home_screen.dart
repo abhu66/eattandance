@@ -1,8 +1,8 @@
 
-import 'package:eattandance/constants.dart';
-import 'package:eattandance/widget/widget_checkin_checkout.dart';
-import 'package:eattandance/widget/widget_dashboard.dart';
-import 'package:eattandance/widget/widget_upcoming_event.dart';
+import 'package:eattendance/constants.dart';
+import 'package:eattendance/widget/widget_checkin_checkout.dart';
+import 'package:eattendance/widget/widget_dashboard.dart';
+import 'package:eattendance/widget/widget_upcoming_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,5 +1,5 @@
-import 'package:eattandance/constants.dart';
-import 'package:eattandance/screens/main_screen.dart';
+import 'package:eattendance/constants.dart';
+import 'package:eattendance/screens/main_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

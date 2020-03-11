@@ -1,26 +1,24 @@
 import 'package:eattendance/activitys/attendance_activity.dart';
-import 'package:eattendance/activitys/leave_activity.dart';
 import 'package:eattendance/activitys/overtime_activity.dart';
+import 'package:eattendance/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-class WidgetDashboard extends StatefulWidget {
+class WidgetLeave extends StatefulWidget {
   final dashboardItem = [
-    new DashboardItem("Attandance", Icons.event_available, Color(0xffF3F3FE),
+    new DashboardItem("My Subscription", Icons.format_indent_increase, Color(0xffF3F3FE),
         Color(0xff415EF6)),
     new DashboardItem(
-        "Overtime", Icons.access_time, Color(0xffEEFBFA), Color(0xff415EF6)),
+        "My Approval", Icons.format_indent_decrease, Color(0xffEEFBFA), Color(0xff415EF6)),
     new DashboardItem(
-        "Leave", Icons.directions_run, Color(0xffFFF3F3), Color(0xffFD706B)),
-    new DashboardItem(
-        "Other", Icons.list, Color(0xffFFF3F3), Color(0xffFD706B)),
+        "Whereabouts", Icons.visibility, Color(0xffFFF3F3), Color(0xffFD706B)),
   ];
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _WidgetDashboardState();
+    return _WidgetLeaveState();
   }
 }
 
@@ -32,7 +30,7 @@ class DashboardItem {
   DashboardItem(this.title, this.icon, this.boxColor, this.iconColor);
 }
 
-class _WidgetDashboardState extends State<WidgetDashboard> {
+class _WidgetLeaveState extends State<WidgetLeave> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -62,7 +60,8 @@ class _WidgetDashboardState extends State<WidgetDashboard> {
                 ),
               ),
               Container(
-                  child:Text(d.title, overflow: TextOverflow.ellipsis,))
+                margin: EdgeInsets.only(top: 10.0),
+                  child:Text(d.title, style: TextStyle(color: Colors.white),overflow: TextOverflow.ellipsis,))
             ]
           ),
           ),
@@ -85,9 +84,9 @@ class _WidgetDashboardState extends State<WidgetDashboard> {
 
     return Container(
       padding: EdgeInsets.all(16),
-      margin: EdgeInsets.all(16),
+      margin: EdgeInsets.all(0),
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          color: HexColor(COLOR_THEME_PRIMARY_BLUE)),
       child: Wrap(
         children: <Widget>[
           Row(
@@ -113,7 +112,7 @@ class _WidgetDashboardState extends State<WidgetDashboard> {
       case 1:
         return Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new OvertimeActivity()));
       case 2:
-        return Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new LeaveActivity()));
+        return Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
       case 3:
         return Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
       default:

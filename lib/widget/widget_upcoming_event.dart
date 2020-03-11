@@ -1,4 +1,4 @@
-import 'package:eattandance/constants.dart';
+import 'package:eattendance/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

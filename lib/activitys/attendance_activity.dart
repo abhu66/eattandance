@@ -1,6 +1,7 @@
-import 'package:eattandance/constants.dart';
-import 'package:eattandance/utils/date_format.dart';
-import 'package:eattandance/widget/widget_checkin_checkout.dart';
+
+import 'package:eattendance/constants.dart';
+import 'package:eattendance/utils/date_format.dart';
+import 'package:eattendance/widget/widget_checkin_checkout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

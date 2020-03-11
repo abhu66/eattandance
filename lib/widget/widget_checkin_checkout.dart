@@ -1,4 +1,4 @@
-import 'package:eattandance/activitys/attandance_activity.dart';
+import 'package:eattendance/activitys/attendance_activity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
