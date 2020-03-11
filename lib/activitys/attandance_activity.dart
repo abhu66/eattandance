@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:eattandance/constants.dart';
 import 'package:eattandance/utils/date_format.dart';
 import 'package:eattandance/widget/widget_checkin_checkout.dart';
@@ -9,8 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AttendanceActivity extends StatefulWidget{
-
+class AttendanceActivity extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -18,8 +13,7 @@ class AttendanceActivity extends StatefulWidget{
   }
 }
 
-class _AttendanceActivityState extends State<AttendanceActivity>{
-
+class _AttendanceActivityState extends State<AttendanceActivity> {
   bool _isCheckIn = false;
   String timeAt;
   @override
@@ -28,19 +22,19 @@ class _AttendanceActivityState extends State<AttendanceActivity>{
     return Scaffold(
       backgroundColor: HexColor(COLOR_LIGHT_GREY),
       appBar: AppBar(
-        backgroundColor:  HexColor(COLOR_THEME_PRIMARY_BLUE),
-        title: Text("Attendence",style: TextStyle(fontSize: 18.0),),
+        backgroundColor: HexColor(COLOR_THEME_PRIMARY_BLUE),
+        title: Text(
+          "Attendence",
+          style: TextStyle(fontSize: 18.0),
+        ),
         elevation: 0.0,
         actions: <Widget>[
           IconButton(
             onPressed: () {
               // _widgetUtil.showAlertLogout(context, widget.user);
             },
-            icon: Icon(
-              Icons.fullscreen,
-              color: Colors.white,
-            ),
-            tooltip: "QR CODE",
+            icon: ImageIcon(AssetImage("assets/images/qr_code_scan.png")),
+            tooltip: "QR Code",
           ),
           IconButton(
             onPressed: () {
@@ -65,104 +59,163 @@ class _AttendanceActivityState extends State<AttendanceActivity>{
                 overflow: Overflow.visible,
                 children: <Widget>[
                   ClipPath(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).padding.top),
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: HexColor(COLOR_THEME_PRIMARY_BLUE),
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(16, 20, 16, 16),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  height: 60,
-                                  child: Text(new DateFormat.jm().format(DateTime.now()),
-                                    style: TextStyle(fontSize: 50.0,fontWeight: FontWeight.bold),)
-                                ),
-                              ],
-                            ),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).padding.top,
+                              bottom: 20),
+                          decoration: BoxDecoration(
+                            color: HexColor(COLOR_THEME_PRIMARY_BLUE),
                           ),
-                          Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                          child: Column(
                             children: <Widget>[
-                              Material(
-                                color: Colors.transparent,
-                                child: Text(new DateFormat.EEEE().format(DateTime.now()),
-                                  style: TextStyle(fontSize: 18.0,),)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 20, 16, 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                        child: Text(
+                                      new DateFormat.jm()
+                                          .format(DateTime.now()),
+                                      style: TextStyle(
+                                          fontSize: 50.0,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                  ],
+                                ),
                               ),
-                              SizedBox(height: 10,),
-                              Material(
-                                  color: Colors.transparent,
-                                  child: Text(DateFormatUtil.fullDate(DateTime.now()),
-                                    style: TextStyle(fontSize: 18.0,),)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Material(
+                                      color: Colors.transparent,
+                                      child: Text(
+                                        new DateFormat.EEEE()
+                                            .format(DateTime.now()),
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                        ),
+                                      )),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Material(
+                                      color: Colors.transparent,
+                                      child: Text(
+                                        DateFormatUtil.fullDate(DateTime.now()),
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                        ),
+                                      )),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Center(child : InkWell(
+                            onTap: (){
+                              setState(() {
+                                _isCheckIn == true ? _isCheckIn = false : _isCheckIn = true;
+                                timeAt = new DateFormat.jm().format(DateTime.now()).toString();
+                                //Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
+                              });
+                            },
+                            child: new Icon(Icons.play_circle_outline,color: _isCheckIn == true ? Colors.red : Colors.yellow,size: 150.0,)
+                        ),
+                        ),
+                        Material(
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.location_on,
+                                color: Colors.red,
+                              ),Flexible(
+                                  child: Text(
+                                    "Plaza Aminta, 3rd fl, Suit 304 ",
+                                    style: TextStyle(
+                                        fontSize: 18.0, color: Color(0xff415EF6)),
+                                  ))
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 30.0,),
+                        _isCheckIn == false ? Container(
+                          padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                          child :
+                          Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+
+                                  ImageIcon(AssetImage("assets/images/dot.png"),
+                                    color:  Colors.red,size: 20,),
+                                  SizedBox(width: 10,),
+                                  Flexible(
+                                      child: Text(
+                                        "Check Out at $timeAt",
+                                        style: TextStyle(
+                                            fontSize: 18.0, color: Color(0xff415EF6)),
+                                      )),
+                                ],
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 18, right: 18),
+                                child:
+                                TextField(
+                                  decoration:
+                                  InputDecoration(suffixIcon: Icon(Icons.edit),
+                                      hintText: "Comment"
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ) : Text(""),
+                        Container(
+                          padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                          child :
+                          Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+
+                                  ImageIcon(AssetImage("assets/images/dot.png"),
+                                    color:  Colors.yellow,size: 20,),
+                                  SizedBox(width: 10,),
+                                  Flexible(
+                                      child: Text(
+                                        "Check In at $timeAt",
+                                        style: TextStyle(
+                                            fontSize: 18.0, color: Color(0xff415EF6)),
+                                      )),
+                                ],
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 18, right: 18),
+                                child:
+                                TextField(
+                                  decoration:
+                                  InputDecoration(suffixIcon: Icon(Icons.edit),
+                                  hintText: "Comment"
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ],
                     ),
                     // clipper: CurveShape(),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 220.0),
-                    child: Center(child : InkWell(
-                        onTap: (){
-                          setState(() {
-                            _isCheckIn == true ? _isCheckIn = false : _isCheckIn = true;
-                            timeAt = new DateFormat.jm().format(DateTime.now()).toString();
-                            //Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
-                          });
-                        },
-                        child: new Icon(Icons.play_circle_outline,color: _isCheckIn == true ? Colors.red : Colors.yellow,size: 200.0,)
-                    ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 410,right: 18,bottom:
-                    20),
-                    child: Material(
-                        color: Colors.transparent,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.location_on,size: 50,color: Colors.red,),
-                            Text("Plaza Aminta, 3rd fl, Suit 304 ",
-                              style: TextStyle(fontSize: 18.0,color: Color(0xff415EF6)),)
-                          ],
-                        ) ,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 500,right: 18,bottom:
-                    20),
-                    child:Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(Icons.location_on,size: 50,color: Colors.red,),
-                                Text("Check In at $timeAt",
-                                  style: TextStyle(fontSize: 18.0,color: Color(0xff415EF6)),),
-                              ],
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 18,right: 18),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.print)
-                                ),
-                              ),
-                            )
-                          ],
-                    ),
-                  ),
+
                 ],
               ),
             ],
@@ -172,11 +225,11 @@ class _AttendanceActivityState extends State<AttendanceActivity>{
     );
   }
 
-  Widget _formLogin(){
+  Widget _formLogin() {
     return Column(
       children: <Widget>[
         new Form(
-         // key: formKey,
+          // key: formKey,
           child: new Column(
             children: <Widget>[
               new TextFormField(
@@ -211,5 +264,4 @@ class _AttendanceActivityState extends State<AttendanceActivity>{
       ],
     );
   }
-
 }

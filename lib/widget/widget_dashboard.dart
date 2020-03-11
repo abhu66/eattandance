@@ -39,21 +39,30 @@ class _WidgetDashboardState extends State<WidgetDashboard> {
       var d = widget.dashboardItem[i];
       dashboardItems.add(
         Container(
-            width: 80,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: d.boxColor,
-            ),
-            child: IconButton(
-              icon: Icon(
-                d.icon,
-                size: 40,
+          child: Expanded(child : Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: d.boxColor,
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    d.icon,
+                    size: 20,
+                  ),
+                  color: d.iconColor,
+                  onPressed: () {},
+                ),
               ),
-              color: d.iconColor,
-              onPressed: () {},
-            ),
-         ),
+              Container(
+                  child:Text(d.title, overflow: TextOverflow.ellipsis,))
+            ]
+          ),
+          ),
+        )
+
+
       );
     }
 
@@ -62,19 +71,13 @@ class _WidgetDashboardState extends State<WidgetDashboard> {
     for (var i = 0; i < widget.dashboardItem.length; i++) {
       var d = widget.dashboardItem[i];
       dashboardItemsTitle.add(
-        Container(
-            width: 80,
-            height: 60,
-            child: Center(
-                child: Text(
-              d.title,
-              overflow: TextOverflow.ellipsis,
-            ))),
+          Flexible(
+            child: Text(d.title, overflow: TextOverflow.ellipsis,),
+          )
       );
     }
 
     return Container(
-      height: 170,
       padding: EdgeInsets.all(16),
       margin: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -84,9 +87,14 @@ class _WidgetDashboardState extends State<WidgetDashboard> {
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: dashboardItems),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: dashboardItemsTitle),
+//          Container(
+//            width: MediaQuery.of(context).size.width,
+//            margin: EdgeInsets.only(top: 10),
+//            child:  Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                children: dashboardItemsTitle),
+//          )
+
         ],
       ),
     );

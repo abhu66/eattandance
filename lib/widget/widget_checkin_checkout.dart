@@ -56,6 +56,7 @@ class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
                         fontFamily: 'Regular',
                         fontSize: 16,
                       ),
+                      overflow: TextOverflow.ellipsis
                     ),
                   ),
                 ],

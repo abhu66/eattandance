@@ -92,18 +92,20 @@ class _HomeScreenState extends State<HomeScreen>{
                             ),
                             Column(
                               crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              CrossAxisAlignment.center,
                               children: <Widget>[
-                                Material(
-                                  color: Colors.transparent,
-                                  child: Text(
-                                    "Welcome Back, Username",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontFamily: 'Bold',
-                                    ),
-                                  ),
+                                    new Container(
+                                      child:Center(child :Text(
+                                        "Welcome Back, Username",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily: 'Bold',
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      ),
+                                      width: 300.0,
                                 ),
                               ],
                             )
@@ -122,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       child: WidgetDashboard(),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 540,right: 18,bottom:
+                      padding: EdgeInsets.only(top: 480,right: 18,bottom:
                       20),
                       child: WidgetUpComingEvent(),
                     ),
