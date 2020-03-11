@@ -64,15 +64,25 @@ class _WidgetUpComingEventState extends State<WidgetUpComingEvent> {
              Padding(
                padding: EdgeInsets.only(top: 45,left: 10),
                child: ListTile(
+                 dense: true,
+                 contentPadding: EdgeInsets.all(10.0),
                  title: Text(
                    "Monday",
                    style: TextStyle(fontSize: 11.0, color: HexColor("#3f000000")),
                  ),
-                 subtitle: Text(
-                   "12 March 2020",
-                   overflow: TextOverflow.ellipsis,
-                   style: TextStyle(fontSize: 14.0, color: HexColor("#0068ce")),
+                 subtitle:Container(
+                     child : Row(
+                          children: <Widget>[
+                            Flexible(child : Text(
+                              "12 March 2020",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 14.0, color: HexColor("#0068ce")),
+                            ),
+                            ),
+                          ],
+                      )
                  ),
+                 isThreeLine: true,
                ),
              ),
           Container(

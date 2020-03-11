@@ -1,5 +1,7 @@
+import 'package:eattandance/activitys/attandance_activity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class WidgetCheckInOut extends StatefulWidget {
   @override
@@ -48,7 +50,7 @@ class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
               child:Row(
                 children: <Widget>[
                   Flexible(child : Text(
-                      _isCheckIn == true ? "Don't forget to check out." : "You havn't check in yet.",
+                      _isCheckIn == true ? "Don't forget to check out." : "You haven't check in yet.",
                       style: TextStyle(
                         color: Color(0xff64676F),
                         fontFamily: 'Regular',
@@ -66,7 +68,8 @@ class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
               child:InkWell(
                   onTap: (){
                     setState(() {
-                      _isCheckIn == true ? _isCheckIn =false : _isCheckIn = true;
+                      _isCheckIn == true ? _isCheckIn = false : _isCheckIn = true;
+                      Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
                     });
                   },
                   child: new Icon(Icons.play_circle_outline,color: _isCheckIn == true ? Colors.red : Colors.yellow,size: 120.0,)

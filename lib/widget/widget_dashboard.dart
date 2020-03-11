@@ -2,6 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WidgetDashboard extends StatefulWidget {
+  final dashboardItem = [
+    new DashboardItem("Attandance", Icons.event_available, Color(0xffF3F3FE),
+        Color(0xff415EF6)),
+    new DashboardItem(
+        "Overtime", Icons.access_time, Color(0xffEEFBFA), Color(0xff415EF6)),
+    new DashboardItem(
+        "Leave", Icons.directions_run, Color(0xffFFF3F3), Color(0xffFD706B)),
+    new DashboardItem(
+        "Other", Icons.list, Color(0xffFFF3F3), Color(0xffFD706B)),
+  ];
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -9,11 +20,59 @@ class WidgetDashboard extends StatefulWidget {
   }
 }
 
+class DashboardItem {
+  String title;
+  IconData icon;
+  Color boxColor;
+  Color iconColor;
+  DashboardItem(this.title, this.icon, this.boxColor, this.iconColor);
+}
+
 class _WidgetDashboardState extends State<WidgetDashboard> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    //icon
+    var dashboardItems = <Widget>[];
+    for (var i = 0; i < widget.dashboardItem.length; i++) {
+      var d = widget.dashboardItem[i];
+      dashboardItems.add(
+        Container(
+            width: 80,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: d.boxColor,
+            ),
+            child: IconButton(
+              icon: Icon(
+                d.icon,
+                size: 40,
+              ),
+              color: d.iconColor,
+              onPressed: () {},
+            ),
+         ),
+      );
+    }
+
+    //title
+    var dashboardItemsTitle = <Widget>[];
+    for (var i = 0; i < widget.dashboardItem.length; i++) {
+      var d = widget.dashboardItem[i];
+      dashboardItemsTitle.add(
+        Container(
+            width: 80,
+            height: 60,
+            child: Center(
+                child: Text(
+              d.title,
+              overflow: TextOverflow.ellipsis,
+            ))),
+      );
+    }
+
     return Container(
       height: 170,
       padding: EdgeInsets.all(16),
@@ -23,83 +82,11 @@ class _WidgetDashboardState extends State<WidgetDashboard> {
       child: Wrap(
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xffF3F3FE),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.event_available,size: 40,),
-                    color: Color(0xff415EF6),
-                    onPressed: () {},
-                  )),
-              Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xffEEFBFA),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.access_time,size: 40),
-                    color: Color(0xff415EF6),
-                    onPressed: () {},
-                  )),
-              Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xffFFF3F3),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.directions_walk,size: 40),
-                    color: Color(0xffFD706B),
-                    onPressed: () {},
-                  )),
-              Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xffEEFBFA),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.list,size: 40),
-                    color: Color(0xffFD706B),
-                    onPressed: () {},
-                  )),
-            ],
-          ),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: dashboardItems),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                  width: 60,
-                  height: 60,
-                  child: Center(child : Text("Attandance"))
-              ),
-              Container(
-                  width: 60,
-                  height: 60,
-                  child: Center(child : Text("Overtime"))
-              ),
-              Container(
-                  width: 60,
-                  height: 60,
-                  child: Center(child : Text("Leave"))
-              ),
-              Container(
-                  width: 60,
-                  height: 60,
-                  child:Center(child : Text("Other"))
-              ),
-            ],
-          ),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: dashboardItemsTitle),
         ],
       ),
     );
