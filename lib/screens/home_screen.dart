@@ -1,5 +1,7 @@
 
 import 'package:eattendance/constants.dart';
+import 'package:eattendance/database/database_helper.dart';
+import 'package:eattendance/models/checkin_response.dart';
 import 'package:eattendance/widget/widget_checkin_checkout.dart';
 import 'package:eattendance/widget/widget_dashboard.dart';
 import 'package:eattendance/widget/widget_upcoming_event.dart';
@@ -22,11 +24,38 @@ class _HomeScreenState extends State<HomeScreen>{
   Future<bool> _onBackPressed() {
     return null;
   }
-
-
   MediaQueryData queryData;
+  bool _isCheckIn = false;
+  String currentLocation = "";
+  CheckInRes checkInRes;
 
+  @override
+  void initState(){
+    super.initState();
+    _getCheckIn();
+  }
 
+  _getCheckIn() async{
+    var db = new DatabaseHelper();
+    var isCheckedIn = await db.isCheckIn();
+    if(isCheckedIn){
+      var res = await db.getCheckIn();
+      setState(() {
+        checkInRes = res;
+        if(checkInRes.status == "" || checkInRes.status == 'false') {
+          _isCheckIn = false;
+        }
+        else {
+          _isCheckIn = true;
+        }
+      });
+    }
+    else {
+      setState(() {
+        _isCheckIn = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -116,8 +145,7 @@ class _HomeScreenState extends State<HomeScreen>{
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 180),
-                      child: WidgetCheckInOut(
-                      ),
+                      child: WidgetCheckInOut(isCheckIn: _isCheckIn,),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 360),

@@ -46,49 +46,72 @@ class _LeaveActivityActivityState extends State<LeaveActivity> {
                 ),
               ),
             ),
-            InkWell(
-                onTap: () {
-                  setState(() {
-                    //Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
-                  });
-                },
-                child: Container(
-                    padding: EdgeInsets.only(left: 18, top: 10),
-                    child: Row(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            new Icon(
-                              Icons.directions_walk,
-                              color: HexColor(COLOR_THEME_PRIMARY_BLUE),
-                              size: 50.0,
-                            ),
-                            Text(
-                              "Leave Application",
-                              style: TextStyle(
-                                  fontSize: 12.0, color: Colors.black),
-                            )
-                          ],
+            Container(
+                margin: EdgeInsets.only(left: 18),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Row(
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            //Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 0, top: 10,right: 0),
+                          child: Row(
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.directions_walk,
+                                    color: HexColor(COLOR_THEME_PRIMARY_BLUE),
+                                    size: 50.0,
+                                  ),
+                                  Text(
+                                    "Leave Application",
+                                    style: TextStyle(
+                                        fontSize: 12.0, color: Colors.black),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(width: 10,),
-                        Column(
-                          children: <Widget>[
-                            new Icon(
-                              Icons.exit_to_app,
-                              color: HexColor(COLOR_THEME_PRIMARY_BLUE),
-                              size: 50.0,
-                            ),
-                            Text(
-                              "Whereabout",
-                              style: TextStyle(
-                                  fontSize: 12.0, color: Colors.black),
-                            )
-                          ],
+                      ),
+                      SizedBox(width: 10,),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            //Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 0, top: 10,right: 0),
+                          child: Row(
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  new Icon(
+                                    Icons.access_time,
+                                    color: HexColor(COLOR_THEME_PRIMARY_BLUE),
+                                    size: 50.0,
+                                  ),
+                                  Text(
+                                    "Whereabouts",
+                                    style: TextStyle(
+                                        fontSize: 12.0, color: Colors.black),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                ),
-            ),
+                      ),
+                    ],
+                  )
+                )),
             WidgetLeaveBalance(),
           ]),
         ),

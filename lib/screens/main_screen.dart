@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:eattendance/location_service.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title, this.tabIndex}) : super(key: key);
@@ -44,6 +46,7 @@ class _MainScreenState extends State<MainScreen> {
   int _currentTabIndex;
   int _selectedDrawerIndex = 0;
   final GlobalKey _scaffoldKey = new GlobalKey();
+  UserLocation _userLocation;
 
   @override
   void initState() {
@@ -59,7 +62,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    //var userLocation  = Provider.of<UserLocation>(context);
+    var userLocation  = Provider.of<UserLocation>(context);
+    setState(() {
+      _userLocation = userLocation;
+    });
+
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -161,7 +168,7 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return new HomeScreen();
       case 1:
-        return Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
+        return Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity(userLocation: _userLocation,)));
       case 2:
         return Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new OvertimeActivity()));
       case 3:

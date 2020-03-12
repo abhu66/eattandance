@@ -1,12 +1,26 @@
 
+import 'dart:async';
+
 import 'package:eattendance/constants.dart';
+import 'package:eattendance/database/database_helper.dart';
+import 'package:eattendance/models/checkin_response.dart';
 import 'package:eattendance/utils/date_format.dart';
 import 'package:eattendance/widget/widget_checkin_checkout.dart';
+import 'package:eattendance/widget/widget_location_maps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:eattendance/location_service.dart';
 
 class AttendanceActivity extends StatefulWidget {
+
+  AttendanceActivity({Key key, this.userLocation}) : super(key:key);
+  final UserLocation userLocation;
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -16,7 +30,48 @@ class AttendanceActivity extends StatefulWidget {
 
 class _AttendanceActivityState extends State<AttendanceActivity> {
   bool _isCheckIn = false;
+  bool _isVisibleCheckoutComment = false;
+  bool _isVisibleCheckInComment = false;
   String timeAt;
+  String officeLocation = "";
+  CheckInRes checkInRes;
+
+
+  @override
+  void initState(){
+    super.initState();
+    _reverseCoordinateToAddress(widget.userLocation);
+    _getCheckIn();
+
+  }
+
+  _getCheckIn() async{
+    var db = new DatabaseHelper();
+    var isCheckedIn = await db.isCheckIn();
+    if(isCheckedIn){
+      var res = await db.getCheckIn();
+      setState(() {
+        checkInRes = res;
+        print("Ress : "+res.status);
+        if(checkInRes.status == "" || checkInRes.status == 'false') {
+          _isCheckIn = false;
+          _isVisibleCheckoutComment = true;
+        }
+        else {
+          print("Date : "+res.checkInAt);
+          _formateStringToDate(res.checkInAt);
+          _isCheckIn = true;
+          _isVisibleCheckInComment = true;
+        }
+      });
+    }
+    else {
+      setState(() {
+        _isCheckIn = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -119,17 +174,26 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                         Center(child : InkWell(
                             onTap: (){
                               setState(() {
-                                _isCheckIn == true ? _isCheckIn = false : _isCheckIn = true;
-                                timeAt = new DateFormat.jm().format(DateTime.now()).toString();
                                 //Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
                               });
                             },
                             child: new Icon(Icons.play_circle_outline,color: _isCheckIn == true ? Colors.red : Colors.yellow,size: 150.0,)
                         ),
                         ),
-                        Material(
+                        Container(
+                          width: 300,
                           color: Colors.transparent,
-                          child: Row(
+                          child : InkWell(
+                            onTap: (){
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.downToUp,
+                                      child: new WidgetLocationMaps(
+                                        userLocation: widget.userLocation,addressLine: officeLocation,
+                                      )));
+                            },
+                            child : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Icon(
@@ -137,15 +201,19 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                                 color: Colors.red,
                               ),Flexible(
                                   child: Text(
-                                    "Plaza Aminta, 3rd fl, Suit 304 ",
+                                    officeLocation,
                                     style: TextStyle(
                                         fontSize: 18.0, color: Color(0xff415EF6)),
-                                  ))
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                              ),
                             ],
+                          ),
                           ),
                         ),
                         SizedBox(height: 30.0,),
-                        _isCheckIn == false ? Container(
+                        _isVisibleCheckoutComment == true ? Container(
                           padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
                           child :
                           Column(
@@ -178,7 +246,7 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                             ],
                           ),
                         ) : Text(""),
-                        Container(
+                        _isVisibleCheckInComment == true ? Container(
                           padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
                           child :
                           Column(
@@ -210,13 +278,11 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                               )
                             ],
                           ),
-                        ),
-
+                        ) : Text(""),
                       ],
                     ),
                     // clipper: CurveShape(),
                   ),
-
                 ],
               ),
             ],
@@ -226,43 +292,41 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
     );
   }
 
-  Widget _formLogin() {
-    return Column(
-      children: <Widget>[
-        new Form(
-          // key: formKey,
-          child: new Column(
-            children: <Widget>[
-              new TextFormField(
-                //onSaved: (val) => username = val,
-//                validator: (val) {
-//                  return val.length < 10
-//                      ? "Username or email is required."
-//                      : null;
-//                },
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: 'Comment',
-                ),
-              ),
-//              SizedBox(height: 20,),
-//              new TextFormField(
-//                onSaved: (val) => password = val,
-//                validator: (val) {
-//                  return val.length < 5
-//                      ? "Password is required."
-//                      : null;
-//                },
-//                textAlign: TextAlign.center,
-//                obscureText: true,
-//                decoration: new InputDecoration(
-//                  hintText: "Password",
-//                ),
-//              ),
-            ],
-          ),
-        ),
-      ],
-    );
+
+  _reverseCoordinateToAddress(UserLocation userLocation) async{
+    // From coordinates
+
+    final coordinates = new Coordinates(userLocation.latitude,userLocation.longitude);
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    setState(() {
+      officeLocation = "${first.addressLine}";
+    });
+    print("${first.featureName} : ${first.addressLine}");
+    print("${first.postalCode} : ${first.thoroughfare}");
+    print("${first.adminArea} : ${first.subAdminArea}");
+    print("${first.locality} : ${first.subLocality}");
   }
+
+  _formateStringToDate(String s){
+    DateTime todayDate = DateTime.parse(s);
+    setState(() {
+      timeAt = new DateFormat.jm().format(todayDate).toString();
+    });
+  }
+
+
+//  openBottomSheetGmaps(BuildContext context) {
+//    showModalBottomSheet(
+//        isScrollControlled: true,
+//        context: context,
+//        backgroundColor: Colors.transparent,
+//        shape: RoundedRectangleBorder(
+//          borderRadius: BorderRadius.only(
+//              topLeft: Radius.circular(12.0), topRight: Radius.circular(12.0)),
+//        ),
+//        builder: (BuildContext context) => Wrap(children: [
+//          WidgetLocationMaps(userLocation: widget.userLocation,addressLine: officeLocation,),
+//        ]));
+//  }
 }

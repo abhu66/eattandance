@@ -55,7 +55,7 @@ class _WidgetOvertimeState extends State<WidgetOvertime> {
                   ),
                   color: d.iconColor,
                   onPressed: () {
-                    _getSelectedDashboardItem(i);
+                   // _getSelectedDashboardItem(i);
                   },
                 ),
               ),
@@ -92,14 +92,6 @@ class _WidgetOvertimeState extends State<WidgetOvertime> {
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: dashboardItems),
-//          Container(
-//            width: MediaQuery.of(context).size.width,
-//            margin: EdgeInsets.only(top: 10),
-//            child:  Row(
-//                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                children: dashboardItemsTitle),
-//          )
-
         ],
       ),
     );

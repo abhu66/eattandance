@@ -44,31 +44,34 @@ class _OvertimeActivityState extends State<OvertimeActivity> {
                 ),
               ),
             ),
-            InkWell(
-                onTap: () {
-                  setState(() {
-                    //Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
-                  });
-                },
-                child: Container(
-                    padding: EdgeInsets.only(left: 18, top: 10),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: <Widget>[
-                          new Icon(
-                            Icons.access_time,
-                            color: HexColor(COLOR_THEME_PRIMARY_BLUE),
-                            size: 50.0,
-                          ),
-                          Text(
-                            "Overtime",
-                            style: TextStyle(
-                                fontSize: 12.0, color: Colors.black),
-                          )
-                        ],
-                      ),
-                    ))),
+            Container(
+              margin: EdgeInsets.only(left: 18),
+              child :Align(
+                alignment: Alignment.topLeft,
+                child :  InkWell(
+                  onTap: () {
+                    setState(() {
+                      //Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.only(left: 0, top: 10,right: 0),
+                      child:  Column(
+                          children: <Widget>[
+                            new Icon(
+                              Icons.access_time,
+                              color: HexColor(COLOR_THEME_PRIMARY_BLUE),
+                              size: 50.0,
+                            ),
+                            Text(
+                              "Overtime",
+                              style: TextStyle(
+                                  fontSize: 12.0, color: Colors.black),
+                            )
+                          ],
+                        ),
+                      )),)
+            )
           ]),
         ),
       ),

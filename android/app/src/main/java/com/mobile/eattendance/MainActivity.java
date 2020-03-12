@@ -1,4 +1,4 @@
-package com.mobile.eattandance;
+package com.mobile.eattendance;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;

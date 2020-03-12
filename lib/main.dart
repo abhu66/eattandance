@@ -1,7 +1,9 @@
 import 'package:eattendance/constants.dart';
+import 'package:eattendance/location_service.dart';
 import 'package:eattendance/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,13 +18,16 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-    return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'e-ATTANDANCE',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SplashScreen(),
+    return StreamProvider<UserLocation>(
+        builder: (context) => LocationService().locationStream,
+            child : new MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'e-ATTANDANCE',
+              theme: new ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: SplashScreen(),
+            ),
     );
   }
 }

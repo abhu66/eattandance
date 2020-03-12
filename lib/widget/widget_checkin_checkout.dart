@@ -1,9 +1,19 @@
+import 'dart:convert';
+
 import 'package:eattendance/activitys/attendance_activity.dart';
+import 'package:eattendance/database/database_helper.dart';
+import 'package:eattendance/models/checkin_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:eattendance/location_service.dart';
 
 class WidgetCheckInOut extends StatefulWidget {
+  WidgetCheckInOut({Key key,this.isCheckIn}) : super(key:key);
+  final bool isCheckIn;
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -14,9 +24,15 @@ class WidgetCheckInOut extends StatefulWidget {
 class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
   bool _isLoading = false;
   bool _isCheckIn = false;
+  String currentLocation = "";
+  CheckInRes checkInRes;
+
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    var userLocation = Provider.of<UserLocation>(context);
     return Container(
       height: 170,
       padding: EdgeInsets.all(16),
@@ -68,10 +84,8 @@ class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
               top: -10.0,
               child:InkWell(
                   onTap: (){
-                    setState(() {
-                      _isCheckIn == true ? _isCheckIn = false : _isCheckIn = true;
-                      Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity()));
-                    });
+                    _isCheckIn == false ? _checkIn(userLocation) : _checkOut(userLocation);
+                    Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new AttendanceActivity(userLocation: userLocation)));
                   },
                   child: new Icon(Icons.play_circle_outline,color: _isCheckIn == true ? Colors.red : Colors.yellow,size: 120.0,)
               )
@@ -100,5 +114,55 @@ class _WidgetCheckInOutState extends State<WidgetCheckInOut> {
         ],
       ),
     );
+  }
+
+  _reverseCoordinateToAddress(UserLocation userLocation) async{
+    // From coordinates
+    final coordinates = new Coordinates(userLocation.latitude,userLocation.longitude);
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    setState(() {
+      currentLocation = "${first.addressLine}";
+    });
+    print("${first.featureName} : ${first.addressLine}");
+    print("${first.postalCode} : ${first.thoroughfare}");
+    print("${first.adminArea} : ${first.subAdminArea}");
+    print("${first.locality} : ${first.subLocality}");
+  }
+
+  _checkIn(UserLocation userLocation) async {
+    var db = new DatabaseHelper();
+    // _reverseCoordinateToAddress(userLocation);
+    var checkInRes = json.encode(
+        {"checkInAt" : DateTime.now().toString(),
+          "checkOutAt" : null,
+          "comment":"",
+          "latLong":LatLng(userLocation.latitude,userLocation.longitude).toString(),
+          "status":"true"});
+    print("LATlONG : "+LatLng(userLocation.latitude,userLocation.longitude).toString());
+    await db.saveCheckIn(checkInResFromJson(checkInRes));
+    setState(() {
+      _isCheckIn = true;
+    });
+    print("Sukses Checkin");
+  }
+
+  _checkOut(UserLocation userLocation) async {
+    var db = new DatabaseHelper();
+    var res = await db.getCheckIn();
+    // _reverseCoordinateToAddress(userLocation);
+    // _reverseCoordinateToAddress(userLocation);
+    var checkInRes = json.encode(
+        {"checkInAt" : res.checkInAt,
+          "checkOutAt" : DateTime.now().toString(),
+          "comment":"",
+          "latLong":res.latLong,
+          "status":"false"});
+    print("LATlONG : "+LatLng(userLocation.latitude,userLocation.longitude).toString());
+    await db.saveCheckOut(checkInResFromJson(checkInRes),int.parse(res.id));
+    setState(() {
+      _isCheckIn = false;
+    });
+    print("Sukses CheckOut");
   }
 }
