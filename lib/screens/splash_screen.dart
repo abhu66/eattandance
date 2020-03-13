@@ -100,7 +100,6 @@ class SplashScreenState extends State<SplashScreen> with TickerProviderStateMixi
                 child: Text("Version "+TEXT_VERSION,style: TextStyle(color: HexColor(COLOR_TEXT_VERSION),fontSize: 12.0),textAlign: TextAlign.right,),
               ),
             )
-
           ],
         ),
       ),

@@ -1,6 +1,8 @@
+import 'package:eattendance/activitys/subordinate_activity.dart';
 import 'package:eattendance/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class WidgetLeaveBalance extends StatefulWidget {
 
@@ -18,6 +20,8 @@ class WidgetLeaveBalance extends StatefulWidget {
 }
 
 class _WidgetLeaveBalanceState extends State<WidgetLeaveBalance> {
+
+  bool isHaveSubOrdinate = true;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -41,19 +45,24 @@ class _WidgetLeaveBalanceState extends State<WidgetLeaveBalance> {
             padding: const EdgeInsets.only(left :15.0,right :15.0),
             child: _myListView(context),
           ),
-         Container(
-              margin: EdgeInsets.only(top: 20.0),
+          isHaveSubOrdinate == true ? Container(
+            margin: EdgeInsets.only(top: 20.0),
             padding: EdgeInsets.only(left: 18, right: 18),
-            child: TextField(
-              enabled: false,
-              decoration: InputDecoration(
-                labelStyle:
-                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                labelText: "Subordinate Data",
-                suffixIcon: Icon(Icons.arrow_forward)
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: new SubordinateActivity()));
+              },
+              child: TextField(
+                enabled: false,
+                decoration: InputDecoration(
+                  labelStyle:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                  labelText: "Subordinate Data",
+                  suffixIcon: Icon(Icons.arrow_forward)
+                ),
               ),
-            ),
           ),
+         ) : Text(""),
         ],
       ),
     );
